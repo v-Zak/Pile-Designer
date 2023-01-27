@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,6 +37,9 @@ namespace Pile_Designer
                     piles.Add(new Pile(int.Parse(line.Split(',')[0]), int.Parse(line.Split(',')[1])));
                 }   
             }
+            // update beams
+            beamsChanged(sender, e);
+            // draw new
             draw();
         }
 
@@ -47,13 +51,26 @@ namespace Pile_Designer
                 var line = beamGCode.Lines[i];
                 if (line.Contains(","))
                 {
-                    Pile p1 = piles[int.Parse(line.Split(',')[0])];
-                    Pile p2 = piles[int.Parse(line.Split(',')[1])];
+                    int p1 = int.Parse(line.Split(',')[0]) - 1;
+                    int p2 = int.Parse(line.Split(',')[1]) - 1;
+                    // create beam and update span
                     Beam b = new Beam(p1, p2, float.Parse(line.Split(',')[2]));
+                    Point point1 = piles[p2].getPoint();
+                    Point point2 = piles[p1].getPoint();
+                    b.span = getDistance(point1, point2);
+                    b.calcBM();
+                    Console.WriteLine(b.BM);
                     beams.Add(b);
                 }
             }
             draw();
+        }
+
+        private float getDistance(Point point1, Point point2)
+        {
+            float dx = point1.X - point2.X;
+            float dy = point1.Y - point2.Y;
+            return (float)Math.Sqrt(dx * dx + dy * dy);
         }
 
         private void pileButton_Clicked(object sender, EventArgs e)
@@ -78,6 +95,11 @@ namespace Pile_Designer
 
         }
 
+        private Point midPoint(Point a, Point b)
+        {
+            return new Point((a.X + b.X) / 2, (a.Y + b.Y) / 2);
+        }
+
         private void draw()
         {
             Pen whitePen = new Pen(Color.White, 2);
@@ -85,62 +107,43 @@ namespace Pile_Designer
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    // Do your drawing here
-                    // draw piles
+                    // Create font and brush.
+                    Font font = new Font("Arial", 12);
+                    SolidBrush whiteBrush = new SolidBrush(Color.White);
+
+                    // draw piles and label
+                    var i = 1;
                     foreach (Pile p in piles)
-                    {
-                            Rectangle rect = new Rectangle(p.x, p.y, 10, 10);
-                            g.FillEllipse(new SolidBrush(Color.Red), rect);                        
+                    {                   
+                        // circle
+                        Rectangle rect = new Rectangle(p.x, p.y, 10, 10);
+                        g.FillEllipse(new SolidBrush(Color.Red), rect);
+
+                        // label
+                        g.DrawString("P" + i.ToString(), font, whiteBrush, p.x + 5, p.y + 5);
+                        i++;
                     }
-                    // draw beams
+                    i = 1;
+                    // draw beams and label
                     foreach (Beam b in beams)
                     {
-                        Point point1 = new Point(b.p1.x + 5, b.p1.y + 5);
-                        Point point2 = new Point(b.p2.x + 5, b.p2.y + 5);
+                        Point point1 = new Point(piles[b.p1].x + 5, piles[b.p1].y + 5);
+                        Point point2 = new Point(piles[b.p2].x + 5, piles[b.p2].y + 5);
                         g.DrawLine(whitePen, point1, point2);
-                    }
-                    
-                }
 
+                        g.DrawString("B" + i.ToString(), font, whiteBrush, midPoint(point1, point2));
+                        i++;
+                    }                    
+                }
                 var memStream = new MemoryStream();
                 bmp.Save(memStream, ImageFormat.Jpeg);
                 pictureBox1.Image = Image.FromStream(memStream);
             }
         }
+
+        private void updateOutput()
+        {
+
+        }
     }
 }
-
-/*private void draw()
-{
-    var lastCoords = "";
-    Pen whitePen = new Pen(Color.White, 2);
-    using (var bmp = new System.Drawing.Bitmap(400, 400))
-    {
-        using (Graphics g = Graphics.FromImage(bmp))
-        {
-            // Do your drawing here
-            foreach (Pile p in piles)
-            {
-
-                if (coordinatea.Contains(","))
-                {
-
-                    var coordinate = coordinatea.Replace(Environment.NewLine, "");
-                    Rectangle rect = new Rectangle(int.Parse(coordinate.Split(',')[0]) - 5, int.Parse(coordinate.Split(',')[1]) - 5, 10, 10);
-                    g.FillEllipse(new SolidBrush(Color.Red), rect);
-                    if (lastCoords.Contains(","))
-                    {
-                        Point point1 = new Point(int.Parse(lastCoords.Split(',')[0]), int.Parse(lastCoords.Split(',')[1]));
-                        Point point2 = new Point(int.Parse(coordinate.Split(',')[0]), int.Parse(coordinate.Split(',')[1]));
-                        g.DrawLine(whitePen, point1, point2);
-                    }
-                    lastCoords = coordinate;
-                }
-            }
-        }
-
-        var memStream = new MemoryStream();
-        bmp.Save(memStream, ImageFormat.Jpeg);
-        pictureBox1.Image = Image.FromStream(memStream);
-    }
-}*/
