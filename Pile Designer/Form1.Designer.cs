@@ -68,53 +68,61 @@
             // 
             // pileGCode
             // 
+            this.pileGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.pileGCode.Location = new System.Drawing.Point(12, 423);
             this.pileGCode.Multiline = true;
             this.pileGCode.Name = "pileGCode";
             this.pileGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.pileGCode.Size = new System.Drawing.Size(223, 61);
             this.pileGCode.TabIndex = 4;
+            this.pileGCode.Text = "100,100\r\n200,100";
             this.pileGCode.Leave += new System.EventHandler(this.pilesChanged);
             // 
             // pileX
             // 
+            this.pileX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.pileX.Location = new System.Drawing.Point(14, 506);
             this.pileX.Name = "pileX";
-            this.pileX.Size = new System.Drawing.Size(39, 20);
+            this.pileX.Size = new System.Drawing.Size(39, 23);
             this.pileX.TabIndex = 5;
             this.pileX.Text = "100";
             // 
             // pileY
             // 
+            this.pileY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.pileY.Location = new System.Drawing.Point(59, 506);
             this.pileY.Name = "pileY";
-            this.pileY.Size = new System.Drawing.Size(34, 20);
+            this.pileY.Size = new System.Drawing.Size(34, 23);
             this.pileY.TabIndex = 6;
             this.pileY.Text = "100";
             // 
             // beamGCode
             // 
+            this.beamGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.beamGCode.Location = new System.Drawing.Point(246, 423);
             this.beamGCode.Multiline = true;
             this.beamGCode.Name = "beamGCode";
             this.beamGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.beamGCode.Size = new System.Drawing.Size(223, 61);
             this.beamGCode.TabIndex = 7;
+            this.beamGCode.Text = "1,2,10";
             this.beamGCode.Leave += new System.EventHandler(this.beamsChanged);
             // 
             // pile2
             // 
+            this.pile2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.pile2.Location = new System.Drawing.Point(283, 503);
             this.pile2.Name = "pile2";
-            this.pile2.Size = new System.Drawing.Size(37, 20);
+            this.pile2.Size = new System.Drawing.Size(37, 23);
             this.pile2.TabIndex = 10;
             this.pile2.Text = "2";
             // 
             // pile1
             // 
+            this.pile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.pile1.Location = new System.Drawing.Point(246, 503);
             this.pile1.Name = "pile1";
-            this.pile1.Size = new System.Drawing.Size(31, 20);
+            this.pile1.Size = new System.Drawing.Size(31, 23);
             this.pile1.TabIndex = 9;
             this.pile1.Text = "1";
             // 
@@ -130,9 +138,10 @@
             // 
             // W
             // 
+            this.W.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.W.Location = new System.Drawing.Point(326, 503);
             this.W.Name = "W";
-            this.W.Size = new System.Drawing.Size(36, 20);
+            this.W.Size = new System.Drawing.Size(36, 23);
             this.W.TabIndex = 11;
             this.W.Text = "10";
             // 
@@ -183,6 +192,7 @@
             // 
             // output
             // 
+            this.output.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F);
             this.output.Location = new System.Drawing.Point(418, 12);
             this.output.Name = "output";
             this.output.ReadOnly = true;
@@ -211,6 +221,7 @@
             this.Controls.Add(this.pileGCode);
             this.Controls.Add(this.pileButton);
             this.Controls.Add(this.pictureBox1);
+            this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

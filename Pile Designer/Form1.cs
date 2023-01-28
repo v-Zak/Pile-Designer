@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,46 +25,78 @@ namespace Pile_Designer
         public Form1()
         {
             InitializeComponent();
+            pilesChanged();
+            beamsChanged();
         }
 
-        private void pilesChanged(object sender, EventArgs e)
+        private void pilesChanged(object sender = null, EventArgs e = null)
         {
             piles.Clear();
+            int j = 0;
             for (int i = 0; i < pileGCode.Lines.Length; i++)
             {                
                 var line = pileGCode.Lines[i];
                 if (line.Contains(","))
                 {
-                    piles.Add(new Pile(int.Parse(line.Split(',')[0]), int.Parse(line.Split(',')[1])));
+                    j++;
+                    string name = "P" + j;
+                    piles.Add(new Pile(int.Parse(line.Split(',')[0]), int.Parse(line.Split(',')[1]), name));
                 }   
             }
             // update beams
             beamsChanged(sender, e);
-            // draw new
+            // update pile reactions
+            setReactions();
+            // draw and output
             draw();
+            updateOutput();
         }
 
-        private void beamsChanged(object sender, EventArgs e)
+        private void beamsChanged(object sender = null, EventArgs e = null)
         {
             beams.Clear();
+            int j = 0;
             for (int i = 0; i < beamGCode.Lines.Length; i++)
             {
                 var line = beamGCode.Lines[i];
                 if (line.Contains(","))
                 {
+                    j++;
                     int p1 = int.Parse(line.Split(',')[0]) - 1;
                     int p2 = int.Parse(line.Split(',')[1]) - 1;
-                    // create beam and update span
-                    Beam b = new Beam(p1, p2, float.Parse(line.Split(',')[2]));
+                    // create beam
+                    string name = "B" + j;
+                    Beam b = new Beam(p1, p2, float.Parse(line.Split(',')[2]), name);
                     Point point1 = piles[p2].getPoint();
                     Point point2 = piles[p1].getPoint();
+
+                    // update beam span and distance
                     b.span = getDistance(point1, point2);
                     b.calcBM();
-                    Console.WriteLine(b.BM);
+
+                    // add to list
                     beams.Add(b);
                 }
             }
+            // update pile reactions
+            setReactions();
+            // draw and output
             draw();
+            updateOutput();
+        }
+
+        private void setReactions()
+        {
+            // set all back to 0
+            foreach(Pile p in piles)
+            {
+                p.reaction = 0;
+            }
+            foreach(Beam b in beams)
+            {
+                piles[b.p1].reaction += b.R;
+                piles[b.p2].reaction += b.R;
+            }
         }
 
         private float getDistance(Point point1, Point point2)
@@ -112,7 +145,6 @@ namespace Pile_Designer
                     SolidBrush whiteBrush = new SolidBrush(Color.White);
 
                     // draw piles and label
-                    var i = 1;
                     foreach (Pile p in piles)
                     {                   
                         // circle
@@ -120,10 +152,8 @@ namespace Pile_Designer
                         g.FillEllipse(new SolidBrush(Color.Red), rect);
 
                         // label
-                        g.DrawString("P" + i.ToString(), font, whiteBrush, p.x + 5, p.y + 5);
-                        i++;
+                        g.DrawString(p.name, font, whiteBrush, p.x + 5, p.y + 5);
                     }
-                    i = 1;
                     // draw beams and label
                     foreach (Beam b in beams)
                     {
@@ -131,8 +161,7 @@ namespace Pile_Designer
                         Point point2 = new Point(piles[b.p2].x + 5, piles[b.p2].y + 5);
                         g.DrawLine(whitePen, point1, point2);
 
-                        g.DrawString("B" + i.ToString(), font, whiteBrush, midPoint(point1, point2));
-                        i++;
+                        g.DrawString(b.name, font, whiteBrush, midPoint(point1, point2));
                     }                    
                 }
                 var memStream = new MemoryStream();
@@ -143,7 +172,42 @@ namespace Pile_Designer
 
         private void updateOutput()
         {
+            output.Clear();
 
+            // create fonts
+            Font font = new Font("Arial", 10);
+            Font bold = new Font("Arial", 10, FontStyle.Bold);
+
+            //Piles
+            output.SelectionFont = bold;
+            output.AppendText("Piles:\n");
+            foreach (Pile p in piles)
+            {
+                output.SelectionFont = bold;
+                output.AppendText(p.name + "\n");
+
+                output.SelectionFont = font;
+                output.AppendText(  "reaction =" + p.reaction + "kN\n" +
+                                    "capacity =" + p.capacity + "kN\n");
+            }
+            output.AppendText("\n");
+
+            //Beams
+            output.SelectionFont = bold;
+            output.AppendText("Beams:\n");
+            foreach (Beam b in beams)
+            {
+                output.SelectionFont = bold;
+                output.AppendText(b.name + "\n");
+
+                output.SelectionFont = font;
+                output.AppendText(  "span =" + b.span + "m\n" +
+                                    "W =" + b.W + "kN\n" +
+                                    "R =" + b.R + "kN\n" +
+                                    "BM =" + b.BM + "kNm\n");
+            }
+            output.AppendText("\n");
         }
+
     }
 }
