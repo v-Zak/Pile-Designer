@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -21,15 +22,28 @@ namespace Pile_Designer
     {
         List<Pile> piles = new List<Pile>();
         List<Beam> beams = new List<Beam>();
+        List<LineLoad> lineLoads = new List<LineLoad>();
+        int scale = 1;
 
         public Form1()
         {
             InitializeComponent();
-            pilesChanged();
-            beamsChanged();
+            updateAll();
         }
 
-        private void pilesChanged(object sender = null, EventArgs e = null)
+        private void updateAll(object sender = null, EventArgs e = null)
+        {
+            updatelineLoads();
+            updatePiles();
+            updateBeams();
+
+            setReactions();
+
+            draw();
+            updateOutput();
+        }
+
+        private void updatePiles(object sender = null, EventArgs e = null)
         {
             piles.Clear();
             int j = 0;
@@ -43,16 +57,10 @@ namespace Pile_Designer
                     piles.Add(new Pile(int.Parse(line.Split(',')[0]), int.Parse(line.Split(',')[1]), name));
                 }   
             }
-            // update beams
-            beamsChanged(sender, e);
-            // update pile reactions
-            setReactions();
-            // draw and output
-            draw();
-            updateOutput();
+           
         }
 
-        private void beamsChanged(object sender = null, EventArgs e = null)
+        private void updateBeams(object sender = null, EventArgs e = null)
         {
             beams.Clear();
             int j = 0;
@@ -64,25 +72,23 @@ namespace Pile_Designer
                     j++;
                     int p1 = int.Parse(line.Split(',')[0]) - 1;
                     int p2 = int.Parse(line.Split(',')[1]) - 1;
+                    int ll = int.Parse(line.Split(',')[2]) - 1;
                     // create beam
                     string name = "B" + j;
-                    Beam b = new Beam(p1, p2, float.Parse(line.Split(',')[2]), name);
+                    Beam b = new Beam(p1, p2, ll , name);
                     Point point1 = piles[p2].getPoint();
                     Point point2 = piles[p1].getPoint();
 
-                    // update beam span and distance
+                    // update beam span, W and BM
                     b.span = getDistance(point1, point2);
+                    b.W = b.span * lineLoads[b.ll].w;
+                    b.R = b.W / 2;
                     b.calcBM();
 
                     // add to list
                     beams.Add(b);
                 }
             }
-            // update pile reactions
-            setReactions();
-            // draw and output
-            draw();
-            updateOutput();
         }
 
         private void setReactions()
@@ -99,6 +105,21 @@ namespace Pile_Designer
             }
         }
 
+        private void updatelineLoads(object sender = null, EventArgs e = null)
+        {
+            lineLoads.Clear();
+            for (int i = 0; i < lineLoadGCode.Lines.Length; i++)
+            {            
+                string line = lineLoadGCode.Lines[i];
+                if (!string.IsNullOrEmpty(line))
+                {
+                    float load = float.Parse(line);
+                    LineLoad ll = new LineLoad("L" + (i + 1), load);
+                    lineLoads.Add(ll);
+                }
+            }
+        }
+
         private float getDistance(Point point1, Point point2)
         {
             float dx = point1.X - point2.X;
@@ -109,13 +130,17 @@ namespace Pile_Designer
         private void pileButton_Clicked(object sender, EventArgs e)
         {
             pileGCode.AppendText(pileX.Text + "," + pileY.Text + Environment.NewLine);
-            pilesChanged(sender, e);
+            updatePiles(sender, e);
         }
 
         private void beamButton_Clicked(object sender, EventArgs e)
         {
-            beamGCode.AppendText(pile1.Text + "," + pile2.Text + "," + W.Text + Environment.NewLine);
-            beamsChanged(sender, e);
+            beamGCode.AppendText(pile1.Text + "," + pile2.Text + "," + ll.Text + Environment.NewLine);
+            updateBeams(sender, e);
+        }
+        private void lineLoadButton_Clicked(object sender, EventArgs e)
+        {
+            lineLoadGCode.AppendText(lineLoad.Text + Environment.NewLine);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -128,40 +153,59 @@ namespace Pile_Designer
 
         }
 
-        private Point midPoint(Point a, Point b)
+        private Point getMidPoint(Point a, Point b)
         {
             return new Point((a.X + b.X) / 2, (a.Y + b.Y) / 2);
         }
 
         private void draw()
         {
+            // calc scale
+            int minX = 0, minY = 0;
+            int maxX = 5, maxY = 5;
+            foreach ( Pile p in piles)
+            {
+               minX = Math.Min(minX, p.x);
+               minY = Math.Min(minY, p.y);
+
+               maxX = Math.Max(maxX, p.x);
+               maxY = Math.Max(maxY, p.y);
+            }
+            int dX = maxX - minX;
+            int dY = maxY - minY;
+            int d = Math.Max(dX, dY); // difference between furthest points
+            float baseScale = 375;
+            scale = (int)((baseScale / d) * float.Parse(userScale.Text));
+            Console.WriteLine(scale.ToString());
+
             Pen whitePen = new Pen(Color.White, 2);
             using (var bmp = new System.Drawing.Bitmap(400, 400))
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
                     // Create font and brush.
-                    Font font = new Font("Arial", 12);
+                    Font font = new Font("Arial", 10);
                     SolidBrush whiteBrush = new SolidBrush(Color.White);
 
                     // draw piles and label
                     foreach (Pile p in piles)
                     {                   
                         // circle
-                        Rectangle rect = new Rectangle(p.x, p.y, 10, 10);
+                        Rectangle rect = new Rectangle(p.x * scale, p.y * scale, 10, 10);
                         g.FillEllipse(new SolidBrush(Color.Red), rect);
 
                         // label
-                        g.DrawString(p.name, font, whiteBrush, p.x + 5, p.y + 5);
+                        g.DrawString(p.name, font, whiteBrush, p.x * scale + 8, p.y * scale + 8);
                     }
                     // draw beams and label
                     foreach (Beam b in beams)
                     {
-                        Point point1 = new Point(piles[b.p1].x + 5, piles[b.p1].y + 5);
-                        Point point2 = new Point(piles[b.p2].x + 5, piles[b.p2].y + 5);
+                        Point point1 = new Point(piles[b.p1].x * scale + 5, piles[b.p1].y * scale + 5);
+                        Point point2 = new Point(piles[b.p2].x * scale + 5, piles[b.p2].y * scale + 5);
                         g.DrawLine(whitePen, point1, point2);
-
-                        g.DrawString(b.name, font, whiteBrush, midPoint(point1, point2));
+                        Point midPoint = getMidPoint(point1, point2);
+                        Point midPointText = Point.Add(midPoint, new Size(0, 3));
+                        g.DrawString(b.name, font, whiteBrush, midPointText);
                     }                    
                 }
                 var memStream = new MemoryStream();
@@ -178,6 +222,19 @@ namespace Pile_Designer
             Font font = new Font("Arial", 10);
             Font bold = new Font("Arial", 10, FontStyle.Bold);
 
+            //Line Loads
+            output.SelectionFont = bold;
+            output.AppendText("Line Loads:\n");
+            foreach (LineLoad ll in lineLoads)
+            {
+                output.SelectionFont = bold;
+                output.AppendText(ll.name + "\n");
+
+                output.SelectionFont = font;
+                output.AppendText("w =" + ll.w + "kN/m\n");
+            }
+            output.AppendText("\n");
+
             //Piles
             output.SelectionFont = bold;
             output.AppendText("Piles:\n");
@@ -187,8 +244,8 @@ namespace Pile_Designer
                 output.AppendText(p.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText(  "reaction =" + p.reaction + "kN\n" +
-                                    "capacity =" + p.capacity + "kN\n");
+                output.AppendText(  "Reaction =" + p.reaction + "kN\n" +
+                                    "Capacity =" + p.capacity + "kN\n");
             }
             output.AppendText("\n");
 
@@ -201,7 +258,8 @@ namespace Pile_Designer
                 output.AppendText(b.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText(  "span =" + b.span + "m\n" +
+                output.AppendText(  "w =" + lineLoads[b.ll].w + "kN/m\n" +
+                                    "Span =" + b.span + "m\n" +
                                     "W =" + b.W + "kN\n" +
                                     "R =" + b.R + "kN\n" +
                                     "BM =" + b.BM + "kNm\n");
@@ -209,5 +267,14 @@ namespace Pile_Designer
             output.AppendText("\n");
         }
 
+        private void pileGCode_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void scaleChanged(object sender, EventArgs e)
+        {
+            draw();
+        }
     }
 }

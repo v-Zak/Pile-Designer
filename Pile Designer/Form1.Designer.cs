@@ -37,13 +37,19 @@
             this.pile2 = new System.Windows.Forms.TextBox();
             this.pile1 = new System.Windows.Forms.TextBox();
             this.beamButton = new System.Windows.Forms.Button();
-            this.W = new System.Windows.Forms.TextBox();
+            this.ll = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.output = new System.Windows.Forms.RichTextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.userScale = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lineLoad = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.lineLoadGCode = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,7 +64,7 @@
             // 
             // pileButton
             // 
-            this.pileButton.Location = new System.Drawing.Point(99, 506);
+            this.pileButton.Location = new System.Drawing.Point(99, 529);
             this.pileButton.Name = "pileButton";
             this.pileButton.Size = new System.Drawing.Size(75, 23);
             this.pileButton.TabIndex = 1;
@@ -69,49 +75,50 @@
             // pileGCode
             // 
             this.pileGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileGCode.Location = new System.Drawing.Point(12, 423);
+            this.pileGCode.Location = new System.Drawing.Point(12, 446);
             this.pileGCode.Multiline = true;
             this.pileGCode.Name = "pileGCode";
             this.pileGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.pileGCode.Size = new System.Drawing.Size(223, 61);
+            this.pileGCode.Size = new System.Drawing.Size(162, 61);
             this.pileGCode.TabIndex = 4;
-            this.pileGCode.Text = "100,100\r\n200,100";
-            this.pileGCode.Leave += new System.EventHandler(this.pilesChanged);
+            this.pileGCode.Text = "0,0\r\n6,0\r\n";
+            this.pileGCode.TextChanged += new System.EventHandler(this.pileGCode_TextChanged);
+            this.pileGCode.Leave += new System.EventHandler(this.updateAll);
             // 
             // pileX
             // 
             this.pileX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileX.Location = new System.Drawing.Point(14, 506);
+            this.pileX.Location = new System.Drawing.Point(14, 529);
             this.pileX.Name = "pileX";
             this.pileX.Size = new System.Drawing.Size(39, 23);
             this.pileX.TabIndex = 5;
-            this.pileX.Text = "100";
+            this.pileX.Text = "10";
             // 
             // pileY
             // 
             this.pileY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileY.Location = new System.Drawing.Point(59, 506);
+            this.pileY.Location = new System.Drawing.Point(59, 529);
             this.pileY.Name = "pileY";
             this.pileY.Size = new System.Drawing.Size(34, 23);
             this.pileY.TabIndex = 6;
-            this.pileY.Text = "100";
+            this.pileY.Text = "10";
             // 
             // beamGCode
             // 
             this.beamGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.beamGCode.Location = new System.Drawing.Point(246, 423);
+            this.beamGCode.Location = new System.Drawing.Point(192, 446);
             this.beamGCode.Multiline = true;
             this.beamGCode.Name = "beamGCode";
             this.beamGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.beamGCode.Size = new System.Drawing.Size(223, 61);
+            this.beamGCode.Size = new System.Drawing.Size(197, 61);
             this.beamGCode.TabIndex = 7;
-            this.beamGCode.Text = "1,2,10";
-            this.beamGCode.Leave += new System.EventHandler(this.beamsChanged);
+            this.beamGCode.Text = "1,2,1\r\n";
+            this.beamGCode.Leave += new System.EventHandler(this.updateAll);
             // 
             // pile2
             // 
             this.pile2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pile2.Location = new System.Drawing.Point(283, 503);
+            this.pile2.Location = new System.Drawing.Point(229, 526);
             this.pile2.Name = "pile2";
             this.pile2.Size = new System.Drawing.Size(37, 23);
             this.pile2.TabIndex = 10;
@@ -120,7 +127,7 @@
             // pile1
             // 
             this.pile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pile1.Location = new System.Drawing.Point(246, 503);
+            this.pile1.Location = new System.Drawing.Point(192, 526);
             this.pile1.Name = "pile1";
             this.pile1.Size = new System.Drawing.Size(31, 23);
             this.pile1.TabIndex = 9;
@@ -128,7 +135,7 @@
             // 
             // beamButton
             // 
-            this.beamButton.Location = new System.Drawing.Point(368, 503);
+            this.beamButton.Location = new System.Drawing.Point(314, 526);
             this.beamButton.Name = "beamButton";
             this.beamButton.Size = new System.Drawing.Size(75, 23);
             this.beamButton.TabIndex = 8;
@@ -136,19 +143,19 @@
             this.beamButton.UseVisualStyleBackColor = true;
             this.beamButton.Click += new System.EventHandler(this.beamButton_Clicked);
             // 
-            // W
+            // ll
             // 
-            this.W.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.W.Location = new System.Drawing.Point(326, 503);
-            this.W.Name = "W";
-            this.W.Size = new System.Drawing.Size(36, 23);
-            this.W.TabIndex = 11;
-            this.W.Text = "10";
+            this.ll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.ll.Location = new System.Drawing.Point(272, 526);
+            this.ll.Name = "ll";
+            this.ll.Size = new System.Drawing.Size(36, 23);
+            this.ll.TabIndex = 11;
+            this.ll.Text = "1";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 490);
+            this.label1.Location = new System.Drawing.Point(12, 513);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(14, 13);
             this.label1.TabIndex = 12;
@@ -157,7 +164,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 490);
+            this.label2.Location = new System.Drawing.Point(59, 513);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 13;
@@ -166,7 +173,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(243, 487);
+            this.label3.Location = new System.Drawing.Point(189, 510);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(20, 13);
             this.label3.TabIndex = 14;
@@ -175,7 +182,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(280, 487);
+            this.label4.Location = new System.Drawing.Point(226, 510);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 13);
             this.label4.TabIndex = 15;
@@ -184,11 +191,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(323, 487);
+            this.label5.Location = new System.Drawing.Point(269, 510);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(18, 13);
+            this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 16;
-            this.label5.Text = "W";
+            this.label5.Text = "LL";
             // 
             // output
             // 
@@ -200,18 +207,83 @@
             this.output.TabIndex = 17;
             this.output.Text = "";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 420);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 13);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Scale";
+            // 
+            // userScale
+            // 
+            this.userScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.userScale.Location = new System.Drawing.Point(51, 415);
+            this.userScale.Name = "userScale";
+            this.userScale.Size = new System.Drawing.Size(31, 23);
+            this.userScale.TabIndex = 18;
+            this.userScale.Text = "1";
+            this.userScale.Leave += new System.EventHandler(this.scaleChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(408, 510);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(15, 13);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "w";
+            // 
+            // lineLoad
+            // 
+            this.lineLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lineLoad.Location = new System.Drawing.Point(411, 526);
+            this.lineLoad.Name = "lineLoad";
+            this.lineLoad.Size = new System.Drawing.Size(36, 23);
+            this.lineLoad.TabIndex = 22;
+            this.lineLoad.Text = "10.0";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(453, 526);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(53, 23);
+            this.button1.TabIndex = 21;
+            this.button1.Text = "LL Add";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.lineLoadButton_Clicked);
+            // 
+            // lineLoadGCode
+            // 
+            this.lineLoadGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lineLoadGCode.Location = new System.Drawing.Point(407, 446);
+            this.lineLoadGCode.Multiline = true;
+            this.lineLoadGCode.Name = "lineLoadGCode";
+            this.lineLoadGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.lineLoadGCode.Size = new System.Drawing.Size(99, 61);
+            this.lineLoadGCode.TabIndex = 20;
+            this.lineLoadGCode.Text = "10.0\r\n";
+            this.lineLoadGCode.Leave += new System.EventHandler(this.updateAll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(833, 556);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lineLoad);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lineLoadGCode);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.userScale);
             this.Controls.Add(this.output);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.W);
+            this.Controls.Add(this.ll);
             this.Controls.Add(this.pile2);
             this.Controls.Add(this.pile1);
             this.Controls.Add(this.beamButton);
@@ -223,7 +295,7 @@
             this.Controls.Add(this.pictureBox1);
             this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Pile Designer";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -241,13 +313,19 @@
         private System.Windows.Forms.TextBox pile2;
         private System.Windows.Forms.TextBox pile1;
         private System.Windows.Forms.Button beamButton;
-        private System.Windows.Forms.TextBox W;
+        private System.Windows.Forms.TextBox ll;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox output;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox userScale;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox lineLoad;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox lineLoadGCode;
     }
 }
 
