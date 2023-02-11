@@ -1,4 +1,5 @@
-﻿using Pile_Designer;
+﻿using Microsoft.Office.Interop.Word;
+using Pile_Designer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
+using Font = System.Drawing.Font;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
 using word = Microsoft.Office.Interop.Word;
 
 
@@ -330,9 +333,21 @@ namespace Pile_Designer
             // open the rtf file inside of Microsoft Word  
             object typeMissing = Type.Missing;
             object trueIndicator = true;
-            app.Documents.Open(ref path);
+            var doc = app.Documents.Open(ref path);
 
-            
+            // add the image to the file
+            word.Range docRange = doc.Range(0,0);
+            var image = pictureBox1.Image;
+
+            Clipboard.SetImage(image);
+            docRange.Paste();
+            docRange.InsertBefore("Pile & Ground Beam Calculations\n\n");
+            docRange.InsertAfter("\n\n");
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }    
 }
