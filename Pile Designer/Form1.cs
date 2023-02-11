@@ -19,6 +19,9 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+using word = Microsoft.Office.Interop.Word;
+
+
 namespace Pile_Designer
 {
     public partial class Form1 : Form
@@ -312,6 +315,24 @@ namespace Pile_Designer
             lineLoadGCode.Text= data[2];
 
             updateAll();
-        }        
+        }
+
+        private void exportButton_Clicked(object sender, EventArgs e)
+        {
+            // open Microsoft Word  
+            Microsoft.Office.Interop.Word.Application app = new word.Application();
+            app.Visible = true;
+
+            // save the contents of output text box to an rtf file
+            object path = AppDomain.CurrentDomain.BaseDirectory + @"\Pile CalcPad.rtf";
+            output.SaveFile((string)path);
+
+            // open the rtf file inside of Microsoft Word  
+            object typeMissing = Type.Missing;
+            object trueIndicator = true;
+            app.Documents.Open(ref path);
+
+            
+        }
     }    
 }
