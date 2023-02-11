@@ -18,6 +18,5 @@ namespace Pile_Designer
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
         }
-
     }
 }

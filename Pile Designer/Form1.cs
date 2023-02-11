@@ -3,17 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Pile_Designer
@@ -48,16 +51,16 @@ namespace Pile_Designer
             piles.Clear();
             int j = 0;
             for (int i = 0; i < pileGCode.Lines.Length; i++)
-            {                
+            {
                 var line = pileGCode.Lines[i];
                 if (line.Contains(","))
                 {
                     j++;
                     string name = "P" + j;
                     piles.Add(new Pile(int.Parse(line.Split(',')[0]), int.Parse(line.Split(',')[1]), name));
-                }   
+                }
             }
-           
+
         }
 
         private void updateBeams(object sender = null, EventArgs e = null)
@@ -75,7 +78,7 @@ namespace Pile_Designer
                     int ll = int.Parse(line.Split(',')[2]) - 1;
                     // create beam
                     string name = "B" + j;
-                    Beam b = new Beam(p1, p2, ll , name);
+                    Beam b = new Beam(p1, p2, ll, name);
                     Point point1 = piles[p2].getPoint();
                     Point point2 = piles[p1].getPoint();
 
@@ -94,11 +97,11 @@ namespace Pile_Designer
         private void setReactions()
         {
             // set all back to 0
-            foreach(Pile p in piles)
+            foreach (Pile p in piles)
             {
                 p.reaction = 0;
             }
-            foreach(Beam b in beams)
+            foreach (Beam b in beams)
             {
                 piles[b.p1].reaction += b.R;
                 piles[b.p2].reaction += b.R;
@@ -109,7 +112,7 @@ namespace Pile_Designer
         {
             lineLoads.Clear();
             for (int i = 0; i < lineLoadGCode.Lines.Length; i++)
-            {            
+            {
                 string line = lineLoadGCode.Lines[i];
                 if (!string.IsNullOrEmpty(line))
                 {
@@ -163,20 +166,19 @@ namespace Pile_Designer
             // calc scale
             int minX = 0, minY = 0;
             int maxX = 5, maxY = 5;
-            foreach ( Pile p in piles)
+            foreach (Pile p in piles)
             {
-               minX = Math.Min(minX, p.x);
-               minY = Math.Min(minY, p.y);
+                minX = Math.Min(minX, p.x);
+                minY = Math.Min(minY, p.y);
 
-               maxX = Math.Max(maxX, p.x);
-               maxY = Math.Max(maxY, p.y);
+                maxX = Math.Max(maxX, p.x);
+                maxY = Math.Max(maxY, p.y);
             }
             int dX = maxX - minX;
             int dY = maxY - minY;
             int d = Math.Max(dX, dY); // difference between furthest points
             float baseScale = 375;
             scale = (int)((baseScale / d) * float.Parse(userScale.Text));
-            Console.WriteLine(scale.ToString());
 
             Pen whitePen = new Pen(Color.White, 2);
             using (var bmp = new System.Drawing.Bitmap(400, 400))
@@ -189,7 +191,7 @@ namespace Pile_Designer
 
                     // draw piles and label
                     foreach (Pile p in piles)
-                    {                   
+                    {
                         // circle
                         Rectangle rect = new Rectangle(p.x * scale, p.y * scale, 10, 10);
                         g.FillEllipse(new SolidBrush(Color.Red), rect);
@@ -206,7 +208,7 @@ namespace Pile_Designer
                         Point midPoint = getMidPoint(point1, point2);
                         Point midPointText = Point.Add(midPoint, new Size(0, 3));
                         g.DrawString(b.name, font, whiteBrush, midPointText);
-                    }                    
+                    }
                 }
                 var memStream = new MemoryStream();
                 bmp.Save(memStream, ImageFormat.Jpeg);
@@ -244,7 +246,7 @@ namespace Pile_Designer
                 output.AppendText(p.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText(  "Reaction =" + p.reaction + "kN\n" +
+                output.AppendText("Reaction =" + p.reaction + "kN\n" +
                                     "Capacity =" + p.capacity + "kN\n");
             }
             output.AppendText("\n");
@@ -258,7 +260,7 @@ namespace Pile_Designer
                 output.AppendText(b.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText(  "w =" + lineLoads[b.ll].w + "kN/m\n" +
+                output.AppendText("w =" + lineLoads[b.ll].w + "kN/m\n" +
                                     "Span =" + b.span + "m\n" +
                                     "W =" + b.W + "kN\n" +
                                     "R =" + b.R + "kN\n" +
@@ -276,5 +278,40 @@ namespace Pile_Designer
         {
             draw();
         }
-    }
+
+        private void saveButton_Clicked(object sender, EventArgs e)
+        {
+            // save all design data to a file
+            saveToFile(pileGCode.Text, beamGCode.Text, lineLoadGCode.Text);
+        }
+        private void loadButton_Clicked(object sender, EventArgs e)
+        {
+            loadFromFile();
+        }
+        private void saveToFile(string piles, string beams, string lineLoads)
+        {
+            // make string out of contents
+            string Msg = piles + ";" + beams + ";" + lineLoads;
+            // Save File to .txt  
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\data.txt";
+            File.WriteAllText(path, Msg);
+        }
+
+        private void loadFromFile()
+        {
+            // get path to data file and read file
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\data.txt";
+            string readText = File.ReadAllText(path);
+
+            // parse the file
+            var data =  readText.Split(';');
+
+            // update GCode Boxes
+            pileGCode.Text = data[0];
+            beamGCode.Text = data[1];
+            lineLoadGCode.Text= data[2];
+
+            updateAll();
+        }        
+    }    
 }
