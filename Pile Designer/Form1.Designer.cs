@@ -68,7 +68,8 @@
             // 
             // pileButton
             // 
-            this.pileButton.Location = new System.Drawing.Point(99, 529);
+            this.pileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pileButton.Location = new System.Drawing.Point(99, 534);
             this.pileButton.Name = "pileButton";
             this.pileButton.Size = new System.Drawing.Size(75, 23);
             this.pileButton.TabIndex = 1;
@@ -78,8 +79,9 @@
             // 
             // pileGCode
             // 
+            this.pileGCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pileGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileGCode.Location = new System.Drawing.Point(12, 446);
+            this.pileGCode.Location = new System.Drawing.Point(12, 451);
             this.pileGCode.Multiline = true;
             this.pileGCode.Name = "pileGCode";
             this.pileGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -91,8 +93,9 @@
             // 
             // pileX
             // 
+            this.pileX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pileX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileX.Location = new System.Drawing.Point(14, 529);
+            this.pileX.Location = new System.Drawing.Point(14, 534);
             this.pileX.Name = "pileX";
             this.pileX.Size = new System.Drawing.Size(39, 23);
             this.pileX.TabIndex = 5;
@@ -100,8 +103,9 @@
             // 
             // pileY
             // 
+            this.pileY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pileY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileY.Location = new System.Drawing.Point(59, 529);
+            this.pileY.Location = new System.Drawing.Point(59, 534);
             this.pileY.Name = "pileY";
             this.pileY.Size = new System.Drawing.Size(34, 23);
             this.pileY.TabIndex = 6;
@@ -109,8 +113,9 @@
             // 
             // beamGCode
             // 
+            this.beamGCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.beamGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.beamGCode.Location = new System.Drawing.Point(192, 446);
+            this.beamGCode.Location = new System.Drawing.Point(192, 451);
             this.beamGCode.Multiline = true;
             this.beamGCode.Name = "beamGCode";
             this.beamGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -121,8 +126,9 @@
             // 
             // pile2
             // 
+            this.pile2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pile2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pile2.Location = new System.Drawing.Point(229, 526);
+            this.pile2.Location = new System.Drawing.Point(229, 531);
             this.pile2.Name = "pile2";
             this.pile2.Size = new System.Drawing.Size(37, 23);
             this.pile2.TabIndex = 10;
@@ -130,8 +136,9 @@
             // 
             // pile1
             // 
+            this.pile1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pile1.Location = new System.Drawing.Point(192, 526);
+            this.pile1.Location = new System.Drawing.Point(192, 531);
             this.pile1.Name = "pile1";
             this.pile1.Size = new System.Drawing.Size(31, 23);
             this.pile1.TabIndex = 9;
@@ -139,7 +146,8 @@
             // 
             // beamButton
             // 
-            this.beamButton.Location = new System.Drawing.Point(314, 526);
+            this.beamButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.beamButton.Location = new System.Drawing.Point(314, 531);
             this.beamButton.Name = "beamButton";
             this.beamButton.Size = new System.Drawing.Size(75, 23);
             this.beamButton.TabIndex = 8;
@@ -149,8 +157,9 @@
             // 
             // ll
             // 
+            this.ll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.ll.Location = new System.Drawing.Point(272, 526);
+            this.ll.Location = new System.Drawing.Point(272, 531);
             this.ll.Name = "ll";
             this.ll.Size = new System.Drawing.Size(36, 23);
             this.ll.TabIndex = 11;
@@ -158,8 +167,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 513);
+            this.label1.Location = new System.Drawing.Point(12, 518);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(14, 13);
             this.label1.TabIndex = 12;
@@ -167,8 +177,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 513);
+            this.label2.Location = new System.Drawing.Point(59, 518);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 13;
@@ -176,8 +187,9 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(189, 510);
+            this.label3.Location = new System.Drawing.Point(189, 515);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(20, 13);
             this.label3.TabIndex = 14;
@@ -185,8 +197,9 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(226, 510);
+            this.label4.Location = new System.Drawing.Point(226, 515);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 13);
             this.label4.TabIndex = 15;
@@ -194,8 +207,9 @@
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(269, 510);
+            this.label5.Location = new System.Drawing.Point(269, 515);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 16;
@@ -203,18 +217,22 @@
             // 
             // output
             // 
+            this.output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.output.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F);
             this.output.Location = new System.Drawing.Point(418, 12);
             this.output.Name = "output";
             this.output.ReadOnly = true;
-            this.output.Size = new System.Drawing.Size(400, 400);
+            this.output.Size = new System.Drawing.Size(358, 400);
             this.output.TabIndex = 17;
             this.output.Text = "";
             // 
             // label6
             // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 420);
+            this.label6.Location = new System.Drawing.Point(12, 425);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 19;
@@ -222,8 +240,9 @@
             // 
             // userScale
             // 
+            this.userScale.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.userScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.userScale.Location = new System.Drawing.Point(51, 415);
+            this.userScale.Location = new System.Drawing.Point(51, 420);
             this.userScale.Name = "userScale";
             this.userScale.Size = new System.Drawing.Size(31, 23);
             this.userScale.TabIndex = 18;
@@ -232,8 +251,9 @@
             // 
             // label7
             // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(408, 510);
+            this.label7.Location = new System.Drawing.Point(408, 515);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(15, 13);
             this.label7.TabIndex = 23;
@@ -241,8 +261,9 @@
             // 
             // lineLoad
             // 
+            this.lineLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lineLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lineLoad.Location = new System.Drawing.Point(411, 526);
+            this.lineLoad.Location = new System.Drawing.Point(411, 531);
             this.lineLoad.Name = "lineLoad";
             this.lineLoad.Size = new System.Drawing.Size(36, 23);
             this.lineLoad.TabIndex = 22;
@@ -250,7 +271,8 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(453, 526);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(453, 531);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 23);
             this.button1.TabIndex = 21;
@@ -260,8 +282,9 @@
             // 
             // lineLoadGCode
             // 
+            this.lineLoadGCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lineLoadGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lineLoadGCode.Location = new System.Drawing.Point(407, 446);
+            this.lineLoadGCode.Location = new System.Drawing.Point(407, 451);
             this.lineLoadGCode.Multiline = true;
             this.lineLoadGCode.Name = "lineLoadGCode";
             this.lineLoadGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -272,7 +295,8 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(537, 446);
+            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveButton.Location = new System.Drawing.Point(537, 451);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 24;
@@ -282,7 +306,8 @@
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(537, 475);
+            this.loadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.loadButton.Location = new System.Drawing.Point(537, 480);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(75, 23);
             this.loadButton.TabIndex = 25;
@@ -292,7 +317,8 @@
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(537, 504);
+            this.exportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.exportButton.Location = new System.Drawing.Point(537, 510);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(75, 23);
             this.exportButton.TabIndex = 26;
@@ -304,7 +330,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 556);
+            this.ClientSize = new System.Drawing.Size(788, 561);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
@@ -330,7 +356,7 @@
             this.Controls.Add(this.pileGCode);
             this.Controls.Add(this.pileButton);
             this.Controls.Add(this.pictureBox1);
-            this.MinimumSize = new System.Drawing.Size(400, 400);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Form1";
             this.Text = "Pile Designer";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

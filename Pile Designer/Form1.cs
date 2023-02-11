@@ -228,51 +228,49 @@ namespace Pile_Designer
 
             // create fonts
             Font font = new Font("Arial", 10);
-            Font bold = new Font("Arial", 10, FontStyle.Bold);
+            Font subHeading = new Font("Arial", 10, FontStyle.Bold);
+            Font heading = new Font("Arial", 12, FontStyle.Bold);
 
             //Line Loads
-            output.SelectionFont = bold;
+            output.SelectionFont = heading;
             output.AppendText("Line Loads:\n");
             foreach (LineLoad ll in lineLoads)
             {
-                output.SelectionFont = bold;
+                output.SelectionFont = subHeading;
                 output.AppendText(ll.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("w =" + ll.w + "kN/m\n");
+                output.AppendText("w = " + ll.w + "kN/m\n\n");
             }
-            output.AppendText("\n");
 
             //Piles
-            output.SelectionFont = bold;
+            output.SelectionFont = heading;
             output.AppendText("Piles:\n");
             foreach (Pile p in piles)
             {
-                output.SelectionFont = bold;
+                output.SelectionFont = subHeading;
                 output.AppendText(p.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("Reaction =" + p.reaction + "kN\n" +
-                                    "Capacity =" + p.capacity + "kN\n");
+                output.AppendText("Reaction = " + p.reaction + "kN\n" +
+                                    "Capacity = " + p.capacity + "kN\n\n");
             }
-            output.AppendText("\n");
 
             //Beams
-            output.SelectionFont = bold;
+            output.SelectionFont = heading;
             output.AppendText("Beams:\n");
             foreach (Beam b in beams)
             {
-                output.SelectionFont = bold;
+                output.SelectionFont = subHeading;
                 output.AppendText(b.name + "\n");
 
                 output.SelectionFont = font;
                 output.AppendText("w =" + lineLoads[b.ll].w + "kN/m\n" +
-                                    "Span =" + b.span + "m\n" +
-                                    "W =" + b.W + "kN\n" +
-                                    "R =" + b.R + "kN\n" +
-                                    "BM =" + b.BM + "kNm\n");
+                                    "Span = " + b.span + "m\n" +
+                                    "W = " + b.W + "kN\n" +
+                                    "R = " + b.R + "kN\n" +
+                                    "BM = " + b.BM + "kNm\n\n");
             }
-            output.AppendText("\n");
         }
 
         private void pileGCode_TextChanged(object sender, EventArgs e)
