@@ -28,32 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pileButton = new System.Windows.Forms.Button();
-            this.pileGCode = new System.Windows.Forms.TextBox();
-            this.pileX = new System.Windows.Forms.TextBox();
-            this.pileY = new System.Windows.Forms.TextBox();
-            this.beamGCode = new System.Windows.Forms.TextBox();
-            this.pile2 = new System.Windows.Forms.TextBox();
-            this.pile1 = new System.Windows.Forms.TextBox();
-            this.beamButton = new System.Windows.Forms.Button();
-            this.ll = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.output = new System.Windows.Forms.RichTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.userScale = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lineLoad = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.lineLoadGCode = new System.Windows.Forms.TextBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
             this.exportButton = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.PileTab = new System.Windows.Forms.TabPage();
+            this.dataGridViewPiles = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BeamTab = new System.Windows.Forms.TabPage();
+            this.dataGridViewBeams = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.beamL = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dataGridViewLines = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button_pile = new System.Windows.Forms.Button();
+            this.pileBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.PileTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPiles)).BeginInit();
+            this.BeamTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBeams)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLines)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pileBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -64,162 +71,9 @@
             this.pictureBox1.Size = new System.Drawing.Size(400, 400);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click_1);
-            // 
-            // pileButton
-            // 
-            this.pileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pileButton.Location = new System.Drawing.Point(99, 534);
-            this.pileButton.Name = "pileButton";
-            this.pileButton.Size = new System.Drawing.Size(75, 23);
-            this.pileButton.TabIndex = 1;
-            this.pileButton.Text = "Pile Add";
-            this.pileButton.UseVisualStyleBackColor = true;
-            this.pileButton.Click += new System.EventHandler(this.pileButton_Clicked);
-            // 
-            // pileGCode
-            // 
-            this.pileGCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pileGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileGCode.Location = new System.Drawing.Point(12, 451);
-            this.pileGCode.Multiline = true;
-            this.pileGCode.Name = "pileGCode";
-            this.pileGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.pileGCode.Size = new System.Drawing.Size(162, 61);
-            this.pileGCode.TabIndex = 4;
-            this.pileGCode.Text = "0,0\r\n6,0\r\n";
-            this.pileGCode.TextChanged += new System.EventHandler(this.pileGCode_TextChanged);
-            this.pileGCode.Leave += new System.EventHandler(this.updateAll);
-            // 
-            // pileX
-            // 
-            this.pileX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pileX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileX.Location = new System.Drawing.Point(14, 534);
-            this.pileX.Name = "pileX";
-            this.pileX.Size = new System.Drawing.Size(39, 23);
-            this.pileX.TabIndex = 5;
-            this.pileX.Text = "10";
-            // 
-            // pileY
-            // 
-            this.pileY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pileY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pileY.Location = new System.Drawing.Point(59, 534);
-            this.pileY.Name = "pileY";
-            this.pileY.Size = new System.Drawing.Size(34, 23);
-            this.pileY.TabIndex = 6;
-            this.pileY.Text = "10";
-            // 
-            // beamGCode
-            // 
-            this.beamGCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.beamGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.beamGCode.Location = new System.Drawing.Point(192, 451);
-            this.beamGCode.Multiline = true;
-            this.beamGCode.Name = "beamGCode";
-            this.beamGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.beamGCode.Size = new System.Drawing.Size(197, 61);
-            this.beamGCode.TabIndex = 7;
-            this.beamGCode.Text = "1,2,1\r\n";
-            this.beamGCode.Leave += new System.EventHandler(this.updateAll);
-            // 
-            // pile2
-            // 
-            this.pile2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pile2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pile2.Location = new System.Drawing.Point(229, 531);
-            this.pile2.Name = "pile2";
-            this.pile2.Size = new System.Drawing.Size(37, 23);
-            this.pile2.TabIndex = 10;
-            this.pile2.Text = "2";
-            // 
-            // pile1
-            // 
-            this.pile1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pile1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.pile1.Location = new System.Drawing.Point(192, 531);
-            this.pile1.Name = "pile1";
-            this.pile1.Size = new System.Drawing.Size(31, 23);
-            this.pile1.TabIndex = 9;
-            this.pile1.Text = "1";
-            // 
-            // beamButton
-            // 
-            this.beamButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.beamButton.Location = new System.Drawing.Point(314, 531);
-            this.beamButton.Name = "beamButton";
-            this.beamButton.Size = new System.Drawing.Size(75, 23);
-            this.beamButton.TabIndex = 8;
-            this.beamButton.Text = "Beam Add";
-            this.beamButton.UseVisualStyleBackColor = true;
-            this.beamButton.Click += new System.EventHandler(this.beamButton_Clicked);
-            // 
-            // ll
-            // 
-            this.ll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.ll.Location = new System.Drawing.Point(272, 531);
-            this.ll.Name = "ll";
-            this.ll.Size = new System.Drawing.Size(36, 23);
-            this.ll.TabIndex = 11;
-            this.ll.Text = "1";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 518);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(14, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "X";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 518);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(14, 13);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Y";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(189, 515);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(20, 13);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "P1";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(226, 515);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(20, 13);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "P2";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(269, 515);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 13);
-            this.label5.TabIndex = 16;
-            this.label5.Text = "LL";
             // 
             // output
             // 
-            this.output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.output.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F);
             this.output.Location = new System.Drawing.Point(418, 12);
             this.output.Name = "output";
@@ -232,7 +86,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 425);
+            this.label6.Location = new System.Drawing.Point(12, 436);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 19;
@@ -242,61 +96,17 @@
             // 
             this.userScale.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.userScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.userScale.Location = new System.Drawing.Point(51, 420);
+            this.userScale.Location = new System.Drawing.Point(51, 431);
             this.userScale.Name = "userScale";
             this.userScale.Size = new System.Drawing.Size(31, 23);
             this.userScale.TabIndex = 18;
             this.userScale.Text = "1";
             this.userScale.Leave += new System.EventHandler(this.scaleChanged);
             // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(408, 515);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(15, 13);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "w";
-            // 
-            // lineLoad
-            // 
-            this.lineLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lineLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lineLoad.Location = new System.Drawing.Point(411, 531);
-            this.lineLoad.Name = "lineLoad";
-            this.lineLoad.Size = new System.Drawing.Size(36, 23);
-            this.lineLoad.TabIndex = 22;
-            this.lineLoad.Text = "10.0";
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(453, 531);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(53, 23);
-            this.button1.TabIndex = 21;
-            this.button1.Text = "LL Add";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.lineLoadButton_Clicked);
-            // 
-            // lineLoadGCode
-            // 
-            this.lineLoadGCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lineLoadGCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lineLoadGCode.Location = new System.Drawing.Point(407, 451);
-            this.lineLoadGCode.Multiline = true;
-            this.lineLoadGCode.Name = "lineLoadGCode";
-            this.lineLoadGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.lineLoadGCode.Size = new System.Drawing.Size(99, 61);
-            this.lineLoadGCode.TabIndex = 20;
-            this.lineLoadGCode.Text = "10.0\r\n";
-            this.lineLoadGCode.Leave += new System.EventHandler(this.updateAll);
-            // 
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.saveButton.Location = new System.Drawing.Point(537, 451);
+            this.saveButton.Location = new System.Drawing.Point(88, 431);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 24;
@@ -307,7 +117,7 @@
             // loadButton
             // 
             this.loadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.loadButton.Location = new System.Drawing.Point(537, 480);
+            this.loadButton.Location = new System.Drawing.Point(169, 431);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(75, 23);
             this.loadButton.TabIndex = 25;
@@ -318,7 +128,7 @@
             // exportButton
             // 
             this.exportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.exportButton.Location = new System.Drawing.Point(537, 510);
+            this.exportButton.Location = new System.Drawing.Point(418, 426);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(75, 23);
             this.exportButton.TabIndex = 26;
@@ -326,40 +136,163 @@
             this.exportButton.UseVisualStyleBackColor = true;
             this.exportButton.Click += new System.EventHandler(this.exportButton_Clicked);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.PileTab);
+            this.tabControl1.Controls.Add(this.BeamTab);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(782, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(268, 336);
+            this.tabControl1.TabIndex = 27;
+            // 
+            // PileTab
+            // 
+            this.PileTab.Controls.Add(this.dataGridViewPiles);
+            this.PileTab.Location = new System.Drawing.Point(4, 22);
+            this.PileTab.Name = "PileTab";
+            this.PileTab.Padding = new System.Windows.Forms.Padding(3);
+            this.PileTab.Size = new System.Drawing.Size(260, 310);
+            this.PileTab.TabIndex = 0;
+            this.PileTab.Text = "Piles";
+            this.PileTab.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewPiles
+            // 
+            this.dataGridViewPiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2});
+            this.dataGridViewPiles.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewPiles.Name = "dataGridViewPiles";
+            this.dataGridViewPiles.Size = new System.Drawing.Size(244, 291);
+            this.dataGridViewPiles.TabIndex = 1;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "X";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Y";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // BeamTab
+            // 
+            this.BeamTab.Controls.Add(this.dataGridViewBeams);
+            this.BeamTab.Location = new System.Drawing.Point(4, 22);
+            this.BeamTab.Name = "BeamTab";
+            this.BeamTab.Padding = new System.Windows.Forms.Padding(3);
+            this.BeamTab.Size = new System.Drawing.Size(260, 310);
+            this.BeamTab.TabIndex = 1;
+            this.BeamTab.Text = "Beams";
+            this.BeamTab.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewBeams
+            // 
+            this.dataGridViewBeams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewBeams.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.beamL});
+            this.dataGridViewBeams.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewBeams.Name = "dataGridViewBeams";
+            this.dataGridViewBeams.Size = new System.Drawing.Size(244, 291);
+            this.dataGridViewBeams.TabIndex = 4;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.Frozen = true;
+            this.dataGridViewTextBoxColumn3.HeaderText = "P1";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "P2";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Width = 50;
+            // 
+            // beamL
+            // 
+            this.beamL.HeaderText = "LL Ref";
+            this.beamL.Name = "beamL";
+            this.beamL.Width = 75;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dataGridViewLines);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(260, 310);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Line Loads";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewLines
+            // 
+            this.dataGridViewLines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewLines.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6});
+            this.dataGridViewLines.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewLines.Name = "dataGridViewLines";
+            this.dataGridViewLines.Size = new System.Drawing.Size(244, 291);
+            this.dataGridViewLines.TabIndex = 3;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "Ref";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "Load";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // button_pile
+            // 
+            this.button_pile.Location = new System.Drawing.Point(786, 354);
+            this.button_pile.Name = "button_pile";
+            this.button_pile.Size = new System.Drawing.Size(91, 23);
+            this.button_pile.TabIndex = 28;
+            this.button_pile.Text = "Update";
+            this.button_pile.UseVisualStyleBackColor = true;
+            this.button_pile.Click += new System.EventHandler(this.update_all);
+            // 
+            // pileBindingSource
+            // 
+            this.pileBindingSource.DataSource = typeof(Pile_Designer.Pile);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(788, 561);
+            this.ClientSize = new System.Drawing.Size(1063, 461);
+            this.Controls.Add(this.button_pile);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.lineLoad);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.lineLoadGCode);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.userScale);
             this.Controls.Add(this.output);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.ll);
-            this.Controls.Add(this.pile2);
-            this.Controls.Add(this.pile1);
-            this.Controls.Add(this.beamButton);
-            this.Controls.Add(this.beamGCode);
-            this.Controls.Add(this.pileY);
-            this.Controls.Add(this.pileX);
-            this.Controls.Add(this.pileGCode);
-            this.Controls.Add(this.pileButton);
             this.Controls.Add(this.pictureBox1);
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "Form1";
             this.Text = "Pile Designer";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.PileTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPiles)).EndInit();
+            this.BeamTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBeams)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLines)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pileBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -368,30 +301,28 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button pileButton;
-        private System.Windows.Forms.TextBox pileGCode;
-        private System.Windows.Forms.TextBox pileX;
-        private System.Windows.Forms.TextBox pileY;
-        private System.Windows.Forms.TextBox beamGCode;
-        private System.Windows.Forms.TextBox pile2;
-        private System.Windows.Forms.TextBox pile1;
-        private System.Windows.Forms.Button beamButton;
-        private System.Windows.Forms.TextBox ll;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox output;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox userScale;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox lineLoad;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox lineLoadGCode;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button loadButton;
         private System.Windows.Forms.Button exportButton;
+        private System.Windows.Forms.BindingSource pileBindingSource;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage PileTab;
+        private System.Windows.Forms.DataGridView dataGridViewPiles;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.TabPage BeamTab;
+        private System.Windows.Forms.DataGridView dataGridViewBeams;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn beamL;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.DataGridView dataGridViewLines;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.Button button_pile;
     }
 }
 

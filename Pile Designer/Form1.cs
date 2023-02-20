@@ -22,11 +22,15 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Font = System.Drawing.Font;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
+using DataTable = System.Data.DataTable;
 using word = Microsoft.Office.Interop.Word;
+using static System.Windows.Forms.LinkLabel;
+using System.Runtime.Remoting.Messaging;
 
 
 namespace Pile_Designer
 {
+
     public partial class Form1 : Form
     {
         List<Pile> piles = new List<Pile>();
@@ -34,71 +38,12 @@ namespace Pile_Designer
         List<LineLoad> lineLoads = new List<LineLoad>();
         int scale = 1;
 
+        DataTable pilesGcode = new DataTable();
+
         public Form1()
         {
             InitializeComponent();
-            updateAll();
-        }
-
-        private void updateAll(object sender = null, EventArgs e = null)
-        {
-            updatelineLoads();
-            updatePiles();
-            updateBeams();
-
-            setReactions();
-
-            draw();
-            updateOutput();
-        }
-
-        private void updatePiles(object sender = null, EventArgs e = null)
-        {
-            piles.Clear();
-            int j = 0;
-            for (int i = 0; i < pileGCode.Lines.Length; i++)
-            {
-                var line = pileGCode.Lines[i];
-                if (line.Contains(","))
-                {
-                    j++;
-                    string name = "P" + j;
-                    piles.Add(new Pile(int.Parse(line.Split(',')[0]), int.Parse(line.Split(',')[1]), name));
-                }
-            }
-
-        }
-
-        private void updateBeams(object sender = null, EventArgs e = null)
-        {
-            beams.Clear();
-            int j = 0;
-            for (int i = 0; i < beamGCode.Lines.Length; i++)
-            {
-                var line = beamGCode.Lines[i];
-                if (line.Contains(","))
-                {
-                    j++;
-                    int p1 = int.Parse(line.Split(',')[0]) - 1;
-                    int p2 = int.Parse(line.Split(',')[1]) - 1;
-                    int ll = int.Parse(line.Split(',')[2]) - 1;
-                    // create beam
-                    string name = "B" + j;
-                    Beam b = new Beam(p1, p2, ll, name);
-                    Point point1 = piles[p2].getPoint();
-                    Point point2 = piles[p1].getPoint();
-
-                    // update beam span, W and BM
-                    b.span = getDistance(point1, point2);
-                    b.W = b.span * lineLoads[b.ll].w;
-                    b.R = b.W / 2;
-                    b.calcBM();
-
-                    // add to list
-                    beams.Add(b);
-                }
-            }
-        }
+        }       
 
         private void setReactions()
         {
@@ -114,44 +59,12 @@ namespace Pile_Designer
             }
         }
 
-        private void updatelineLoads(object sender = null, EventArgs e = null)
-        {
-            lineLoads.Clear();
-            for (int i = 0; i < lineLoadGCode.Lines.Length; i++)
-            {
-                string line = lineLoadGCode.Lines[i];
-                if (!string.IsNullOrEmpty(line))
-                {
-                    float load = float.Parse(line);
-                    LineLoad ll = new LineLoad("L" + (i + 1), load);
-                    lineLoads.Add(ll);
-                }
-            }
-        }
-
         private float getDistance(Point point1, Point point2)
         {
             float dx = point1.X - point2.X;
             float dy = point1.Y - point2.Y;
             return (float)Math.Sqrt(dx * dx + dy * dy);
         }
-
-        private void pileButton_Clicked(object sender, EventArgs e)
-        {
-            pileGCode.AppendText(pileX.Text + "," + pileY.Text + Environment.NewLine);
-            updatePiles(sender, e);
-        }
-
-        private void beamButton_Clicked(object sender, EventArgs e)
-        {
-            beamGCode.AppendText(pile1.Text + "," + pile2.Text + "," + ll.Text + Environment.NewLine);
-            updateBeams(sender, e);
-        }
-        private void lineLoadButton_Clicked(object sender, EventArgs e)
-        {
-            lineLoadGCode.AppendText(lineLoad.Text + Environment.NewLine);
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -174,11 +87,11 @@ namespace Pile_Designer
             int maxX = 5, maxY = 5;
             foreach (Pile p in piles)
             {
-                minX = Math.Min(minX, p.x);
-                minY = Math.Min(minY, p.y);
+                minX = Math.Min(minX, (int)p.x);
+                minY = Math.Min(minY, (int)p.y);
 
-                maxX = Math.Max(maxX, p.x);
-                maxY = Math.Max(maxY, p.y);
+                maxX = Math.Max(maxX, (int)p.x);
+                maxY = Math.Max(maxY, (int)p.y);
             }
             int dX = maxX - minX;
             int dY = maxY - minY;
@@ -199,7 +112,7 @@ namespace Pile_Designer
                     foreach (Pile p in piles)
                     {
                         // circle
-                        Rectangle rect = new Rectangle(p.x * scale, p.y * scale, 10, 10);
+                        Rectangle rect = new Rectangle((int)p.x * scale, (int)p.y * scale, 10, 10);
                         g.FillEllipse(new SolidBrush(Color.Red), rect);
 
                         // label
@@ -208,8 +121,8 @@ namespace Pile_Designer
                     // draw beams and label
                     foreach (Beam b in beams)
                     {
-                        Point point1 = new Point(piles[b.p1].x * scale + 5, piles[b.p1].y * scale + 5);
-                        Point point2 = new Point(piles[b.p2].x * scale + 5, piles[b.p2].y * scale + 5);
+                        Point point1 = new Point((int)piles[b.p1].x * scale + 5, (int)piles[b.p1].y * scale + 5);
+                        Point point2 = new Point((int)piles[b.p2].x * scale + 5, (int)piles[b.p2].y * scale + 5);
                         g.DrawLine(whitePen, point1, point2);
                         Point midPoint = getMidPoint(point1, point2);
                         Point midPointText = Point.Add(midPoint, new Size(0, 3));
@@ -273,11 +186,6 @@ namespace Pile_Designer
             }
         }
 
-        private void pileGCode_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void scaleChanged(object sender, EventArgs e)
         {
             draw();
@@ -285,37 +193,76 @@ namespace Pile_Designer
 
         private void saveButton_Clicked(object sender, EventArgs e)
         {
-            // save all design data to a file
-            saveToFile(pileGCode.Text, beamGCode.Text, lineLoadGCode.Text);
+            // ensure the data folder exists
+            string folder = AppDomain.CurrentDomain.BaseDirectory + @"\data";
+            System.IO.Directory.CreateDirectory(folder);
+
+            // save all design data to a file within the data folder
+            saveToFile(dataGridViewPiles, folder + @"\piles.zak");
+            saveToFile(dataGridViewBeams, folder + @"\beams.zak");
+            saveToFile(dataGridViewLines, folder + @"\lines.zak");
         }
         private void loadButton_Clicked(object sender, EventArgs e)
         {
-            loadFromFile();
-        }
-        private void saveToFile(string piles, string beams, string lineLoads)
-        {
-            // make string out of contents
-            string Msg = piles + ";" + beams + ";" + lineLoads;
-            // Save File to .txt  
-            string path = AppDomain.CurrentDomain.BaseDirectory + @"\data.txt";
-            File.WriteAllText(path, Msg);
+            // location of data folder
+            string folder = AppDomain.CurrentDomain.BaseDirectory + @"\data";
+            // load from files within the folder
+            loadFromFile(dataGridViewPiles, folder + @"\piles.zak");
+            loadFromFile(dataGridViewBeams, folder + @"\beams.zak");
+            loadFromFile(dataGridViewLines, folder + @"\lines.zak");
+
+            // use the new dataGrids to update all classes 
+            update_all();
         }
 
-        private void loadFromFile()
+        // Save datagridview in binary to a file within the local directory
+        private void saveToFile(DataGridView dgv, string path)
         {
-            // get path to data file and read file
-            string path = AppDomain.CurrentDomain.BaseDirectory + @"\data.txt";
-            string readText = File.ReadAllText(path);
+            using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
+            {
+                bw.Write(dgv.Columns.Count);
+                bw.Write(dgv.Rows.Count);
+                foreach (DataGridViewRow dgvR in dgv.Rows)
+                {
+                    for (int j = 0; j < dgv.Columns.Count; ++j)
+                    {
+                        object val = dgvR.Cells[j].Value;
+                        if (val == null)
+                        {
+                            bw.Write(false);
+                            bw.Write(false);
+                        }
+                        else
+                        {
+                            bw.Write(true);
+                            bw.Write(val.ToString());
+                        }
+                    }
+                }
+            }
+        }
 
+        // update data contents of data grid view from file
+        private void loadFromFile(DataGridView dgv, string path)
+        {
             // parse the file
-            var data =  readText.Split(';');
-
-            // update GCode Boxes
-            pileGCode.Text = data[0];
-            beamGCode.Text = data[1];
-            lineLoadGCode.Text= data[2];
-
-            updateAll();
+            using (BinaryReader bw = new BinaryReader(File.Open(path, FileMode.Open)))
+            {
+                int n = bw.ReadInt32();
+                int m = bw.ReadInt32();
+                for (int i = 0; i < m; ++i)
+                {
+                    dgv.Rows.Add();
+                    for (int j = 0; j < n; ++j)
+                    {
+                        if (bw.ReadBoolean())
+                        {
+                            dgv.Rows[i].Cells[j].Value = bw.ReadString();
+                        }
+                        else bw.ReadBoolean();
+                    }
+                }
+            }
         }
 
         private void exportButton_Clicked(object sender, EventArgs e)
@@ -343,9 +290,125 @@ namespace Pile_Designer
             docRange.InsertAfter("\n\n");
         }
 
-        private void pictureBox1_Click_1(object sender, EventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+
+        /// Input ========================
+        
+        private void pile_update()
+        {
+            piles.Clear();
+            for (int i = 0; i<dataGridViewPiles.Rows.Count - 1; i++)
+            {
+                float x, y;
+                if (float.TryParse(dataGridViewPiles.Rows[i].Cells[0].Value?.ToString(), out x) && float.TryParse(dataGridViewPiles.Rows[i].Cells[1].Value?.ToString(), out y))
+                {
+                    string name = "P" + (i + 1);
+                    piles.Add(new Pile(x, y, name));
+                }
+            }
+        }
+
+        private void beam_update()
+        {
+            beams.Clear();
+            for (int i = 0; i < dataGridViewBeams.Rows.Count - 1; i++)
+            {
+                string ll = dataGridViewBeams.Rows[i].Cells[2].Value?.ToString();
+                int p1, p2;           
+                if (int.TryParse(dataGridViewBeams.Rows[i].Cells[0].Value?.ToString(), out p1) 
+                    && int.TryParse(dataGridViewBeams.Rows[i].Cells[1].Value?.ToString(), out p2)
+                    && !string.IsNullOrEmpty(ll)) // string check is not needed but adds clarity
+                {            
+                    // decrement to become indexs
+                    p1--;
+                    p2--;
+
+                    // check indexs are in bounds & line load ref exists
+                    if (checkInbounds(p1, piles) 
+                        && checkInbounds(p2, piles)
+                        && checkKey(ll, lineLoads))
+                    {
+                        int llIndex = getIndexFromKey(ll, lineLoads);
+                        // create beam
+                        string name = "B" + (i + 1);
+                        Beam b = new Beam(p1, p2, llIndex, name);
+                        Point point1 = piles[p2].getPoint();
+                        Point point2 = piles[p1].getPoint();
+
+                        // update beam span, W and BM
+                        b.span = getDistance(point1, point2);
+                        b.W = b.span * lineLoads[b.ll].w;
+                        b.R = b.W / 2;
+                        b.calcBM();
+
+                        // add to list
+                        beams.Add(b);
+                    }
+                }
+            }
+        }         
+
+        // check index is valid
+        private bool checkInbounds<T>(int index, List<T> list)
+        {
+            if( 0 <= index && index < list.Count)
+                return true;
+            else
+            return false;
+        }
+
+        // check line loads contain a line load with name == refName
+        private bool checkKey(string refName, List<LineLoad> list)
+        {
+            foreach(var o in list)
+            {
+                if (o.name == refName)
+                    return true;                
+            }
+            return false;
+        }
+
+        // returns the index of the object thats name matches refName
+        private int getIndexFromKey(string refName, List<LineLoad> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].name == refName)
+                    return i;
+            }
+            return -1;
+        }
+
+        private void line_update()
+        {
+            lineLoads.Clear();
+            for (int i = 0; i < dataGridViewLines.Rows.Count - 1; i++)
+            {
+                string name = dataGridViewLines.Rows[i].Cells[0].Value?.ToString();
+                int load;
+                if (        !string.IsNullOrEmpty(name)
+                            && int.TryParse(dataGridViewLines.Rows[i].Cells[1].Value?.ToString(), out load))
+                {
+                    LineLoad ll = new LineLoad(name, load);
+                    lineLoads.Add(ll);            
+                }
+            }
+        }
+
+        private void update_all(object sender = null, EventArgs e = null)
+        {
+            // update objects
+            line_update();
+            pile_update();
+            beam_update();
+
+            // show objects on screen and calcs
+            draw();
+            updateOutput();
+        }
     }    
 }
+

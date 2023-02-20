@@ -10,7 +10,7 @@ namespace Pile_Designer
 {
     internal class Pile
     {
-        public Pile(int x, int y, string name)
+        public Pile(float x, float y, string name)
         {
             this.name = name;
             this.x = x;
@@ -19,8 +19,8 @@ namespace Pile_Designer
         }
 
         public string name;
-        public int x = 0;
-        public int y = 0;
+        public float x = 0;
+        public float y = 0;
 
         private float _reaction;
         public float reaction
@@ -33,10 +33,11 @@ namespace Pile_Designer
         }
         public int capacity = 0;
 
-
+        // returns a rounded integer of the piles location
+        // (actual values are floats)
         public Point getPoint()
         {
-            return new Point(x,y);
+            return new Point((int)x,(int)y);
         }
     }
 }
