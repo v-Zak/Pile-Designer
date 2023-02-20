@@ -1,0 +1,19 @@
+TODO:
+	Add beam capacities (Type 1 = h16) - show using colour?
+		seperate tab for input?
+	Allow location of save and load
+	Add SLS and ULS 
+		States
+			{
+			SLS: 10
+			ULS: 15
+			Units: "kN"
+			}
+	
+	Round floats to 2dp on output
+	Allow beam to bear onto beam
+
+NICE TO HAVES:
+	Add CAD read in for pile positions (import piles button)
+	Add CAD output for pile positions (export piles button)
+	

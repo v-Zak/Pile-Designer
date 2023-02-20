@@ -57,14 +57,7 @@ namespace Pile_Designer
                 piles[b.p1].reaction += b.R;
                 piles[b.p2].reaction += b.R;
             }
-        }
-
-        private float getDistance(Point point1, Point point2)
-        {
-            float dx = point1.X - point2.X;
-            float dy = point1.Y - point2.Y;
-            return (float)Math.Sqrt(dx * dx + dy * dy);
-        }
+        }        
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -116,7 +109,7 @@ namespace Pile_Designer
                         g.FillEllipse(new SolidBrush(Color.Red), rect);
 
                         // label
-                        g.DrawString(p.name, font, whiteBrush, p.x * scale + 8, p.y * scale + 8);
+                        g.DrawString(p.name, font, whiteBrush, (int)p.x * scale + 8, (int)p.y * scale + 8);
                     }
                     // draw beams and label
                     foreach (Beam b in beams)
@@ -137,6 +130,8 @@ namespace Pile_Designer
 
         private void updateOutput()
         {
+            int printDecimalPoints = 2;
+
             output.Clear();
 
             // create fonts
@@ -153,7 +148,7 @@ namespace Pile_Designer
                 output.AppendText(ll.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("w = " + ll.w + "kN/m\n\n");
+                output.AppendText("w = " + Math.Round(ll.w, printDecimalPoints) + "kN/m\n\n");
             }
 
             //Piles
@@ -165,8 +160,8 @@ namespace Pile_Designer
                 output.AppendText(p.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("Reaction = " + p.reaction + "kN\n" +
-                                    "Capacity = " + p.capacity + "kN\n\n");
+                output.AppendText("Reaction = " + Math.Round(p.reaction, printDecimalPoints) + "kN\n" +
+                                    "Capacity = " + p.capacity + "kN\n\n"); // capacitry is already an int
             }
 
             //Beams
@@ -178,11 +173,11 @@ namespace Pile_Designer
                 output.AppendText(b.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("w =" + lineLoads[b.ll].w + "kN/m\n" +
-                                    "Span = " + b.span + "m\n" +
-                                    "W = " + b.W + "kN\n" +
-                                    "R = " + b.R + "kN\n" +
-                                    "BM = " + b.BM + "kNm\n\n");
+                output.AppendText("w =" + Math.Round(lineLoads[b.ll].w, printDecimalPoints) + "kN/m\n" +
+                                    "Span = " + Math.Round(b.span, printDecimalPoints) + "m\n" +
+                                    "W = " + Math.Round(b.W, printDecimalPoints) + "kN\n" +
+                                    "R = " + Math.Round(b.R, printDecimalPoints) + "kN\n" +
+                                    "BM = " + Math.Round(b.BM, printDecimalPoints) + "kNm\n\n");
             }
         }
 
@@ -335,11 +330,17 @@ namespace Pile_Designer
                         // create beam
                         string name = "B" + (i + 1);
                         Beam b = new Beam(p1, p2, llIndex, name);
-                        Point point1 = piles[p2].getPoint();
-                        Point point2 = piles[p1].getPoint();
+
+                        // pile 1 positions
+                        float p1X = piles[p1].x;
+                        float p1Y = piles[p1].y;
+
+                        // pile 2 positions
+                        float p2X = piles[p2].x;
+                        float p2Y = piles[p2].y;
 
                         // update beam span, W and BM
-                        b.span = getDistance(point1, point2);
+                        b.span = getDistance(p1X, p1Y, p2X, p2Y);
                         b.W = b.span * lineLoads[b.ll].w;
                         b.R = b.W / 2;
                         b.calcBM();
@@ -349,7 +350,14 @@ namespace Pile_Designer
                     }
                 }
             }
-        }         
+        }
+        // gets distance between 2 points
+        private float getDistance(float p1X, float p1Y, float p2X, float p2Y)
+        {
+            float dx = p2X - p1X;
+            float dy = p2Y - p1Y;
+            return (float)Math.Sqrt(dx * dx + dy * dy);
+        }
 
         // check index is valid
         private bool checkInbounds<T>(int index, List<T> list)
