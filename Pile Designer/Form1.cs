@@ -26,7 +26,7 @@ using DataTable = System.Data.DataTable;
 using word = Microsoft.Office.Interop.Word;
 using static System.Windows.Forms.LinkLabel;
 using System.Runtime.Remoting.Messaging;
-
+using System.Windows.Forms.VisualStyles;
 
 namespace Pile_Designer
 {
@@ -189,28 +189,37 @@ namespace Pile_Designer
 
         private void saveButton_Clicked(object sender, EventArgs e)
         {
-            // ensure the data folder exists
-            string folder = AppDomain.CurrentDomain.BaseDirectory + @"\data";
-            System.IO.Directory.CreateDirectory(folder);
+            string filePath = getFilePath("zak");
 
             // save all design data to a file within the data folder
-            saveToFile(dataGridViewPiles, folder + @"\piles.zak");
-            saveToFile(dataGridViewBeams, folder + @"\beams.zak");
-            saveToFile(dataGridViewLines, folder + @"\lines.zak");
+            saveToFile(dataGridViewPiles, filePath);
         }
         private void loadButton_Clicked(object sender, EventArgs e)
         {
-            // location of data folder
-            string folder = AppDomain.CurrentDomain.BaseDirectory + @"\data";
-            // load from files within the folder
-            loadFromFile(dataGridViewPiles, folder + @"\piles.zak");
-            loadFromFile(dataGridViewBeams, folder + @"\beams.zak");
-            loadFromFile(dataGridViewLines, folder + @"\lines.zak");
+            string filePath = getFilePath("zak");
+            loadFromFile(dataGridViewPiles, filePath);
 
             // use the new dataGrids to update all classes 
             update_all();
         }
 
+        private string getFilePath(string extension)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = $"{extension} files (*.{extension})|*.{extension}|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() != DialogResult.OK)
+                {
+                    Exception exception = new Exception("Can't get file!");                    
+                } 
+                //Get the path of specified file
+                return openFileDialog.FileName;
+            }
+        }
         // Save datagridview in binary to a file within the local directory
         private void saveToFile(DataGridView dgv, string path)
         {
