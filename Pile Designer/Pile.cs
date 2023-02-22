@@ -25,13 +25,13 @@ namespace Pile_Designer
         private float _reaction;
         public float reaction
         {
-            set { 
-                this._reaction = value; 
-                this.capacity = Math.Max((int)(value / 25) * 25 + 25, 100);
+            set {
+                this._reaction = value; // sls used for piles
+                this.capacity = Math.Max((int)(value / 25) * 25 + 25, 100); 
             }
             get { return this._reaction; }
         }
-        public int capacity = 0;
+        public int capacity = 100;
 
         // returns a rounded integer of the piles location
         // (actual values are floats)

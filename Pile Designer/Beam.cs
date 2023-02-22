@@ -21,15 +21,15 @@ namespace Pile_Designer
 
         public void calcBM()
         {
-            BM = (W * span) / 8;
+            BM = (W.uls * span) / 8;
         }
         public string name;
         public int p1; // reference to pile
         public int p2; // reference to pile
         public float span;
         public int ll; // reference to line load
-        public float W;
-        public float R;
-        public float BM;
+        public Load W;
+        public Load R;
+        public float BM; // bm is uls only
     }
 }

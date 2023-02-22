@@ -39,8 +39,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.PileTab = new System.Windows.Forms.TabPage();
             this.dataGridViewPiles = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BeamTab = new System.Windows.Forms.TabPage();
             this.dataGridViewBeams = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,10 +46,13 @@
             this.beamL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridViewLines = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button_pile = new System.Windows.Forms.Button();
             this.pileBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Load2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.PileTab.SuspendLayout();
@@ -144,7 +145,7 @@
             this.tabControl1.Location = new System.Drawing.Point(782, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(268, 336);
+            this.tabControl1.Size = new System.Drawing.Size(238, 336);
             this.tabControl1.TabIndex = 27;
             // 
             // PileTab
@@ -153,7 +154,7 @@
             this.PileTab.Location = new System.Drawing.Point(4, 22);
             this.PileTab.Name = "PileTab";
             this.PileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.PileTab.Size = new System.Drawing.Size(260, 310);
+            this.PileTab.Size = new System.Drawing.Size(230, 310);
             this.PileTab.TabIndex = 0;
             this.PileTab.Text = "Piles";
             this.PileTab.UseVisualStyleBackColor = true;
@@ -169,23 +170,13 @@
             this.dataGridViewPiles.Size = new System.Drawing.Size(244, 291);
             this.dataGridViewPiles.TabIndex = 1;
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "X";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Y";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
             // BeamTab
             // 
             this.BeamTab.Controls.Add(this.dataGridViewBeams);
             this.BeamTab.Location = new System.Drawing.Point(4, 22);
             this.BeamTab.Name = "BeamTab";
             this.BeamTab.Padding = new System.Windows.Forms.Padding(3);
-            this.BeamTab.Size = new System.Drawing.Size(260, 310);
+            this.BeamTab.Size = new System.Drawing.Size(230, 310);
             this.BeamTab.TabIndex = 1;
             this.BeamTab.Text = "Beams";
             this.BeamTab.UseVisualStyleBackColor = true;
@@ -227,7 +218,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(260, 310);
+            this.tabPage1.Size = new System.Drawing.Size(230, 310);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Line Loads";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -237,21 +228,12 @@
             this.dataGridViewLines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewLines.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6});
+            this.dataGridViewTextBoxColumn6,
+            this.Load2});
             this.dataGridViewLines.Location = new System.Drawing.Point(6, 6);
             this.dataGridViewLines.Name = "dataGridViewLines";
             this.dataGridViewLines.Size = new System.Drawing.Size(244, 291);
             this.dataGridViewLines.TabIndex = 3;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Ref";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "Load";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             // 
             // button_pile
             // 
@@ -266,6 +248,36 @@
             // pileBindingSource
             // 
             this.pileBindingSource.DataSource = typeof(Pile_Designer.Pile);
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "Ref";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "SLS";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.Width = 50;
+            // 
+            // Load2
+            // 
+            this.Load2.HeaderText = "ULS";
+            this.Load2.Name = "Load2";
+            this.Load2.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "X";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 75;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Y";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 75;
             // 
             // Form1
             // 
@@ -311,8 +323,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage PileTab;
         private System.Windows.Forms.DataGridView dataGridViewPiles;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.TabPage BeamTab;
         private System.Windows.Forms.DataGridView dataGridViewBeams;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -320,9 +330,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn beamL;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView dataGridViewLines;
+        private System.Windows.Forms.Button button_pile;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.Button button_pile;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Load2;
     }
 }
 

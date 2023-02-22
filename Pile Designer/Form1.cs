@@ -45,17 +45,18 @@ namespace Pile_Designer
             InitializeComponent();
         }       
 
-        private void setReactions()
+        private void pile_reactions_update()
         {
             // set all back to 0
             foreach (Pile p in piles)
             {
-                p.reaction = 0;
+               p.reaction = p.reaction * 0;
             }
             foreach (Beam b in beams)
             {
-                piles[b.p1].reaction += b.R;
-                piles[b.p2].reaction += b.R;
+                // piles sls only
+                piles[b.p1].reaction += b.R.sls;
+                piles[b.p2].reaction += b.R.sls;
             }
         }        
         private void Form1_Load(object sender, EventArgs e)
@@ -148,7 +149,7 @@ namespace Pile_Designer
                 output.AppendText(ll.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("w = " + Math.Round(ll.w, printDecimalPoints) + "kN/m\n\n");
+                output.AppendText("w = " + ll.w + "\n");
             }
 
             //Piles
@@ -160,8 +161,8 @@ namespace Pile_Designer
                 output.AppendText(p.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("Reaction = " + Math.Round(p.reaction, printDecimalPoints) + "kN\n" +
-                                    "Capacity = " + p.capacity + "kN\n\n"); // capacitry is already an int
+                output.AppendText("Reaction = " + p.reaction + "kN (SLS)\n" + // piles sls only
+                                    "Capacity = " + p.capacity + "kN (SLS)\n\n"); 
             }
 
             //Beams
@@ -173,11 +174,11 @@ namespace Pile_Designer
                 output.AppendText(b.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("w =" + Math.Round(lineLoads[b.ll].w, printDecimalPoints) + "kN/m\n" +
+                output.AppendText("w =" + lineLoads[b.ll].w + "\n" +
                                     "Span = " + Math.Round(b.span, printDecimalPoints) + "m\n" +
-                                    "W = " + Math.Round(b.W, printDecimalPoints) + "kN\n" +
-                                    "R = " + Math.Round(b.R, printDecimalPoints) + "kN\n" +
-                                    "BM = " + Math.Round(b.BM, printDecimalPoints) + "kNm\n\n");
+                                    "W = " + b.W + "\n" +
+                                    "R = " + b.R + "\n" +
+                                    "BM = " + b.BM + "kNm (ULS)\n"); // bm uls only
             }
         }
 
@@ -343,6 +344,10 @@ namespace Pile_Designer
                         b.span = getDistance(p1X, p1Y, p2X, p2Y);
                         b.W = b.span * lineLoads[b.ll].w;
                         b.R = b.W / 2;
+
+                        // correct units
+                        b.W.units = "kN";
+                        b.R.units = "kN";
                         b.calcBM();
 
                         // add to list
@@ -396,11 +401,12 @@ namespace Pile_Designer
             for (int i = 0; i < dataGridViewLines.Rows.Count - 1; i++)
             {
                 string name = dataGridViewLines.Rows[i].Cells[0].Value?.ToString();
-                int load;
+                int sls, uls;
                 if (        !string.IsNullOrEmpty(name)
-                            && int.TryParse(dataGridViewLines.Rows[i].Cells[1].Value?.ToString(), out load))
+                            && int.TryParse(dataGridViewLines.Rows[i].Cells[1].Value?.ToString(), out sls)
+                            && int.TryParse(dataGridViewLines.Rows[i].Cells[2].Value?.ToString(), out uls))
                 {
-                    LineLoad ll = new LineLoad(name, load);
+                    LineLoad ll = new LineLoad(name, sls, uls);
                     lineLoads.Add(ll);            
                 }
             }
@@ -412,6 +418,9 @@ namespace Pile_Designer
             line_update();
             pile_update();
             beam_update();
+
+            // calculate pile reactions
+            pile_reactions_update();
 
             // show objects on screen and calcs
             draw();
