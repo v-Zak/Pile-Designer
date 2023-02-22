@@ -221,7 +221,7 @@ namespace Pile_Designer
             }
         }
         // Save datagridview in binary to a file within the local directory
-        private void saveToFile(DataGridView dgv, string path)
+        private void saveToFile(DataGridView dgv, string path) // try xml file instead to load multiple gatagrid views -----------------------------------------------------
         {
             using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
             {
