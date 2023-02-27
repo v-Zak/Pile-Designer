@@ -27,6 +27,8 @@ using word = Microsoft.Office.Interop.Word;
 using static System.Windows.Forms.LinkLabel;
 using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms.VisualStyles;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Pile_Designer
 {
@@ -189,15 +191,15 @@ namespace Pile_Designer
 
         private void saveButton_Clicked(object sender, EventArgs e)
         {
-            string filePath = getFilePath("zak");
+            string filePath = saveFilePath("zak");
 
             // save all design data to a file within the data folder
-            saveToFile(dataGridViewPiles, filePath);
+            saveToFile(filePath);
         }
         private void loadButton_Clicked(object sender, EventArgs e)
         {
             string filePath = getFilePath("zak");
-            loadFromFile(dataGridViewPiles, filePath);
+            loadFromFile(filePath);
 
             // use the new dataGrids to update all classes 
             update_all();
@@ -205,6 +207,7 @@ namespace Pile_Designer
 
         private string getFilePath(string extension)
         {
+            string filename;
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
@@ -217,9 +220,31 @@ namespace Pile_Designer
                     Exception exception = new Exception("Can't get file!");                    
                 } 
                 //Get the path of specified file
-                return openFileDialog.FileName;
+                filename = openFileDialog.FileName;
             }
+            return filename;
         }
+
+        private string saveFilePath(string extension)
+        {
+            string filename;
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.InitialDirectory = "c:\\";
+                saveFileDialog.Filter = $"{extension} files (*.{extension})|*.{extension}|All files (*.*)|*.*";
+                saveFileDialog.FilterIndex = 1;
+                saveFileDialog.RestoreDirectory = true;
+
+                if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                {
+                    Exception exception = new Exception("Can't get file!");
+                }
+                filename = saveFileDialog.FileName;
+            }
+            //Get the path of specified file
+            return filename;
+        }
+
         // Save datagridview in binary to a file within the local directory
         private void saveToFile(DataGridView dgv, string path) // try xml file instead to load multiple gatagrid views -----------------------------------------------------
         {
@@ -247,8 +272,8 @@ namespace Pile_Designer
             }
         }
 
-        // update data contents of data grid view from file
-        private void loadFromFile(DataGridView dgv, string path)
+                // update data contents of data grid view from file
+                private void loadFromFile(DataGridView dgv, string path)
         {
             // parse the file
             using (BinaryReader bw = new BinaryReader(File.Open(path, FileMode.Open)))
