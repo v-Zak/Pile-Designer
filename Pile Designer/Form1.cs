@@ -246,51 +246,66 @@ namespace Pile_Designer
         }
 
         // Save datagridview in binary to a file within the local directory
-        private void saveToFile(DataGridView dgv, string path) // try xml file instead to load multiple gatagrid views -----------------------------------------------------
+        private void saveToFile(string path) // try xml file instead to load multiple gatagrid views -----------------------------------------------------
         {
             using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
             {
-                bw.Write(dgv.Columns.Count);
-                bw.Write(dgv.Rows.Count);
-                foreach (DataGridViewRow dgvR in dgv.Rows)
+                writeSection(dataGridViewPiles, bw);
+                writeSection(dataGridViewBeams, bw);
+                writeSection(dataGridViewLines, bw);
+            }
+        }
+
+        private void writeSection(DataGridView dgv, BinaryWriter bw)
+        {
+            bw.Write(dgv.Columns.Count);
+            bw.Write(dgv.Rows.Count);
+            foreach (DataGridViewRow dgvR in dgv.Rows)
+            {
+                for (int j = 0; j < dgv.Columns.Count; ++j)
                 {
-                    for (int j = 0; j < dgv.Columns.Count; ++j)
+                    object val = dgvR.Cells[j].Value;
+                    if (val == null)
                     {
-                        object val = dgvR.Cells[j].Value;
-                        if (val == null)
-                        {
-                            bw.Write(false);
-                            bw.Write(false);
-                        }
-                        else
-                        {
-                            bw.Write(true);
-                            bw.Write(val.ToString());
-                        }
+                        bw.Write(false);
+                        bw.Write(false);
+                    }
+                    else
+                    {
+                        bw.Write(true);
+                        bw.Write(val.ToString());
                     }
                 }
             }
         }
 
-                // update data contents of data grid view from file
-                private void loadFromFile(DataGridView dgv, string path)
+        // update data contents of data grid view from file
+        private void loadFromFile(string path)
         {
             // parse the file
+            DataGridView dgv = dataGridViewPiles;
             using (BinaryReader bw = new BinaryReader(File.Open(path, FileMode.Open)))
             {
-                int n = bw.ReadInt32();
-                int m = bw.ReadInt32();
-                for (int i = 0; i < m; ++i)
+                readSection(dataGridViewPiles, bw);
+                readSection(dataGridViewBeams, bw);
+                readSection(dataGridViewLines, bw);
+            }
+        }
+
+        private void readSection(DataGridView dgv, BinaryReader bw)
+        {
+            int n = bw.ReadInt32();
+            int m = bw.ReadInt32();
+            for (int i = 0; i < m; ++i)
+            {
+                dgv.Rows.Add();
+                for (int j = 0; j < n; ++j)
                 {
-                    dgv.Rows.Add();
-                    for (int j = 0; j < n; ++j)
+                    if (bw.ReadBoolean())
                     {
-                        if (bw.ReadBoolean())
-                        {
-                            dgv.Rows[i].Cells[j].Value = bw.ReadString();
-                        }
-                        else bw.ReadBoolean();
+                        dgv.Rows[i].Cells[j].Value = bw.ReadString();
                     }
+                    else bw.ReadBoolean();
                 }
             }
         }
