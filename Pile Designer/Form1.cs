@@ -163,8 +163,7 @@ namespace Pile_Designer
                 output.AppendText(p.name + "\n");
 
                 output.SelectionFont = font;
-                output.AppendText("Reaction = " + p.reaction + "kN (SLS)\n" + // piles sls only
-                                    "Capacity = " + p.capacity + "kN (SLS)\n\n"); 
+                output.AppendText(p); 
             }
 
             //Beams
@@ -404,14 +403,7 @@ namespace Pile_Designer
                     }
                 }
             }
-        }
-        // gets distance between 2 points
-        private float getDistance(float p1X, float p1Y, float p2X, float p2Y)
-        {
-            float dx = p2X - p1X;
-            float dy = p2Y - p1Y;
-            return (float)Math.Sqrt(dx * dx + dy * dy);
-        }
+        }        
 
         // check index is valid
         private bool checkInbounds<T>(int index, List<T> list)

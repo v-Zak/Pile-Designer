@@ -11,25 +11,89 @@ namespace Pile_Designer
     internal class Beam
     {
 
-        public Beam(int p1, int p2, int ll, string name) 
+        public Beam(ReactionPoint p1, ReactionPoint p2, Load ll, string name, List<ReactionPoint> pls) 
         {
         this.name = name;
         this.p1 = p1;
         this.p2 = p2;
         this.ll = ll;
+        this.pls = pls;       
         }
 
-        public void calcBM()
+        public void update()
         {
-            BM = (W.uls * span) / 8;
+            zeroReactions();
+            calcSpan();
+            calcPLDistances();
+            calcReactions();
+            calcBM();
         }
+
+        public void zeroReactions()
+        {
+            p1.reaction = new Load(0, 0, "kN");
+            p2.reaction = new Load(0, 0, "kN");
+        }
+
+        public void calcSpan()
+        {
+            span = getDistance(p1.x, p1.y, p2.x, p2.y);
+        }
+
+        // gets distance between 2 points
+        private float getDistance(float p1X, float p1Y, float p2X, float p2Y)
+        {
+            float dx = p2X - p1X;
+            float dy = p2Y - p1Y;
+            return (float)Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        private void calcPLDistances() // relative to p1
+        {
+            foreach(var p in this.pls)
+            {
+                distancesToP1.Add(getDistance(p1.x, p1.y, p.x, p.y));
+            }
+        }
+
+        private void calcReactions()
+        {
+            W = ll * span;
+            p1.reaction = W / 2;
+            p2.reaction = W / 2;
+
+            for (int i = 0; i < pls.Count; i++)
+            {
+                var pl = pls[i];
+                var dist = distancesToP1[i];
+
+                p1.reaction += pl.reaction * dist / span;
+                p2.reaction += pl.reaction * (span - dist) / span;
+            }            
+        }
+
+        private void calcBM()
+        {
+            BM += (W.uls * span) / 8;
+
+            // add pl calc
+            Console.WriteLine("WARNING: pl not added to bm");
+        }
+
+        public void calcReaction()
+        {
+
+        }
+
         public string name;
-        public int p1; // reference to pile
-        public int p2; // reference to pile
+        public ReactionPoint p1;
+        public ReactionPoint p2; 
         public float span;
-        public int ll; // reference to line load
+        public Load ll;
         public Load W;
         public Load R;
         public float BM; // bm is uls only
+        public List<ReactionPoint> pls; // point loads from other reactions
+        public List<float> distancesToP1; // point load distances
     }
 }
