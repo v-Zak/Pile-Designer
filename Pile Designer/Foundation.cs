@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,12 +41,13 @@ namespace Pile_Designer
 
         public void update()
         {
-
+            updateBeams();
+            updatePiles();
         }
 
         private void updateBeams()
         {
-
+            
         }
         private void updatePiles()
         {
