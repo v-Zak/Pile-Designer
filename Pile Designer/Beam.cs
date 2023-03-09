@@ -74,10 +74,16 @@ namespace Pile_Designer
 
         private void calcBM()
         {
-            BM += (W.uls * span) / 8;
+            // line laod 
+            bm += (W.uls * span) / 8;
 
-            // add pl calc
-            Console.WriteLine("WARNING: pl not added to bm");
+            // add pl's
+            for (int i = 0; i < pls.Count; i++)
+            {
+                var pl = pls[i];
+                var dist = distancesToP1[i];
+                bm += (pl.reaction.uls * dist * (span - dist)) / span;
+            }
         }
 
         public void calcReaction()
@@ -89,10 +95,10 @@ namespace Pile_Designer
         public ReactionPoint p1;
         public ReactionPoint p2; 
         public float span;
-        public Load ll;
-        public Load W;
-        public Load R;
-        public float BM; // bm is uls only
+        public Load ll; // little w
+        public Load W; // big W
+        public Load r;
+        public float bm; // bm is uls only
         public List<ReactionPoint> pls; // point loads from other reactions
         public List<float> distancesToP1; // point load distances
     }

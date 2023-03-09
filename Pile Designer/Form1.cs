@@ -57,8 +57,8 @@ namespace Pile_Designer
             foreach (Beam b in beams)
             {
                 // piles sls only
-                piles[b.p1].reaction += b.R.sls;
-                piles[b.p2].reaction += b.R.sls;
+                piles[b.p1].reaction += b.r.sls;
+                piles[b.p2].reaction += b.r.sls;
             }
         }        
         private void Form1_Load(object sender, EventArgs e)
@@ -178,8 +178,8 @@ namespace Pile_Designer
                 output.AppendText("w =" + lineLoads[b.ll].w + "\n" +
                                     "Span = " + Math.Round(b.span, printDecimalPoints) + "m\n" +
                                     "W = " + b.W + "\n" +
-                                    "R = " + b.R + "\n" +
-                                    "BM = " + b.BM + "kNm (ULS)\n"); // bm uls only
+                                    "R = " + b.r + "\n" +
+                                    "BM = " + b.bm + "kNm (ULS)\n"); // bm uls only
             }
         }
 
@@ -391,11 +391,11 @@ namespace Pile_Designer
                         // update beam span, W and BM
                         b.span = getDistance(p1X, p1Y, p2X, p2Y);
                         b.W = b.span * lineLoads[b.ll].w;
-                        b.R = b.W / 2;
+                        b.r = b.W / 2;
 
                         // correct units
                         b.W.units = "kN";
-                        b.R.units = "kN";
+                        b.r.units = "kN";
                         b.calcBM();
 
                         // add to list
