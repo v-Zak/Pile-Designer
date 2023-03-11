@@ -11,28 +11,24 @@ namespace Pile_Designer
     internal class Beam
     {
 
-        public Beam(ReactionPoint p1, ReactionPoint p2, Load ll, string name, List<ReactionPoint> pls) 
+        public Beam(int p1, int p2, int ll, List<int> pls, string name, List<ReactionPoint> reactionPoints, List<Load> lineLoads) 
         {
         this.name = name;
         this.p1 = p1;
         this.p2 = p2;
         this.ll = ll;
-        this.pls = pls;       
+        this.pls = pls; 
+            
+        update(List<ReactionPoint> reactionPoints, List<Load> lineLoads)
         }
 
-        public void update()
+        public void update(List<ReactionPoint> reactionPoints, List<Load> lineLoads)
         {
-            zeroReactions();
+            Pile p1
             calcSpan();
             calcPLDistances();
             calcReactions();
             calcBM();
-        }
-
-        public void zeroReactions()
-        {
-            p1.reaction = new Load(0, 0, "kN");
-            p2.reaction = new Load(0, 0, "kN");
         }
 
         public void calcSpan()
@@ -92,14 +88,14 @@ namespace Pile_Designer
         }
 
         public string name;
-        public ReactionPoint p1;
-        public ReactionPoint p2; 
+        public int p1;
+        public int p2; 
         public float span;
-        public Load ll; // little w
+        public int ll; // little w 
         public Load W; // big W
-        public Load r;
+        public int r;
         public float bm; // bm is uls only
-        public List<ReactionPoint> pls; // point loads from other reactions
+        public List<int> pls; // point loads from other reactions
         public List<float> distancesToP1; // point load distances
     }
 }

@@ -42,16 +42,14 @@ namespace Pile_Designer
         public void update()
         {
             updateBeams();
-            updatePiles();
         }
 
         private void updateBeams()
         {
-            
-        }
-        private void updatePiles()
-        {
-
+            foreach (Beam b in beams)
+            {
+                b.update();
+            }
         }
     }
 }
